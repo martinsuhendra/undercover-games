@@ -4,7 +4,7 @@
       <b-button
         class="lets-play animated infinite bounce delay-2s"
         v-if="play == false"
-        @click="changePlay"
+        @click.prevent="changePlay"
         variant="outline-danger"
       >Let's Play</b-button>
     </div>
@@ -50,11 +50,11 @@
           <button
             class="btn btn-success"
             type="submit"
-            @click="joinRoom(room.id)"
+            @click.prevent="joinRoom(room.id)"
           >join room</button>
           <div>
             <ul v-for="(player, index) in room.players" :key="index">
-              <li>{{player}}</li>
+              <li>{{player.name}}</li>
             </ul>
           </div>
         </div>
@@ -80,48 +80,106 @@ export default {
     };
   },
   components: {},
+
+  watch: {
+    list () {
+      this.list.forEach(el => {
+        console.log(el)
+        if (el.players.length === 3) {
+          el.players.forEach(player => {
+            if (localStorage.getItem('name') === player) {
+              this.$router.replace({ path: `/play` })
+            }
+          })
+        }
+      })
+    }
+  },
+
+
   created() {
     this.listRoom();
   },
 
   methods: {
     listRoom() {
-      db.collection("rooms")
-        .get()
-        .then(querySnapshot => {
-          this.list = querySnapshot.docs.map(el => {
-            return {
+      db
+        .collection('rooms')
+        .onSnapshot(querySnapshot => {
+          this.list = [];
+          querySnapshot.docs.forEach(el => {
+            let obj = {
               id: el.id,
-              ...el.data()
-            };
-          });
-        });
+              players: []
+            }
+            el.ref.collection('players').onSnapshot(snapshot => {
+              obj.players = []
+              snapshot.docs.forEach(x => {
+                obj.players.push({
+                  id: x.id,
+                  ...x.data()
+                })
+              })
+            })
+            this.list.push(obj)
+          })
+        })
     },
-
     createRoom() {
-      db.collection("rooms")
+      db
+        .collection('rooms')
         .doc(this.roomName)
         .set({
-          players: []
-        })
-        .then(docRef => {
-          this.listRoom();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-
-    joinRoom(id) {
-      db.collection("rooms")
-        .doc(id)
-        .update({
-          players: firebase.firestore.FieldValue.arrayUnion(this.playerName)
+          isPlaying: false,
         })
         .then(() => {
-          this.listRoom();
-        });
+          this.createPlayers()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
+    createPlayers() {
+      db
+        .collection('rooms')
+        .doc(this.roomName)
+        .collection("players").add({
+           name: this.playerName,
+           score: 0,
+           isReady:false
+         })
+        .then(() => {
+          localStorage.setItem('name', this.playerName)
+          this.roomName = ''
+          this.playerName = ''
+          this.$router.push('/play')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+
+    },
+    joinRoom(id) {
+      db
+        .collection('rooms')
+        .doc(id)
+        .collection("players").add({
+           name: this.playerName,
+           score: 0,
+           isReady:false
+         })
+        .then(() => {
+          localStorage.setItem('name', this.playerName)
+          this.roomName = ''
+          this.playerName = ''
+          this.$router.push('/play')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
     changePlay() {
       this.play = true;
     }
