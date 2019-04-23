@@ -144,6 +144,7 @@ export default {
       }
       this.$store.commit("setRoom", this.roomName)
       this.$store.dispatch("addPlayerToRoom", payload)
+      
        
       this.$router.push('/play')
     },
@@ -154,7 +155,6 @@ export default {
       }
       this.$store.commit("setRoom", id)
       this.$store.dispatch("addPlayerToRoom", payload)
-       this.$store.dispatch("listenToPlayers")
       this.$router.push('/play')
     },
 
