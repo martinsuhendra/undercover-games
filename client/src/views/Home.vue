@@ -97,9 +97,7 @@ export default {
 
   created() {
     this.listRoom();
-    let audio = new Audio(
-      "https://00e9e64bacfa5c7b6c882cb0cf19aed4baa3a1bdbae960d7e5-apidata.googleusercontent.com/download/storage/v1/b/e-commercemartinsuhendra/o/thunder_strike_2-Mike_Koenig-2099467696.wav?qk=AD5uMEvhlSn_jEqBW2R9-ZLICujdQQDp3APBg0JNBAna2QRmdFK7mYjFv2FXZAMRPzECcaOhlvakGsX8Vb1zjdRwzvbWaCCIp6DigxJhCellon78kh-jKqhI9HTt38RoH_-2W53Ue1mM-0u8-wWEaxUkHFHV1tFBSXdRMf9fQLU8UgayUCOm1KMkY8zwBIc5aRfvDS2nvWTulyepqoqPY1O2wPx7oA0FZqInzTh0fPZkg2Evzrv9g0Z0fHJpVef1bavSMPRPFiev0sOHvRAxeKg_Ul_WpRZViY2S94o9-XAHBfH-s3Bwb8dxL1xAI96kmnIhKMIjanUb03AREQRSSxdp-M1QQ3dNIO_JSHAzDHEk73Q82WmHPFB3YCvFv7hpwhRTCd5a-Xv7Lk5rm3AbWzdPL3qzqQm8DFFhz1TeEoGbbyB3y3d8gu_vSsOTwwSrAwTeS0UO8N4M0I0HXL2cDHYCYrkI6IRne2oXYp4w2KgrcjfTPiLddwU1lGtjHB0RPyvM-6mZmijx71Z0TMtSML-S6WiU9fFZOtNIbsj5Si_ZpoCneAjNTiaTV6HUUABj0ls3ntgt2Yjx-wkpmBpfuT0ZPw-us5lpdCl_kn3zxRFvUoq0aVfBCnumpY9lAx-Krbcv-e7UhNkdo9N0i3e9J1BVyFhoyn4tCuYho4C5efSSk1PyIfoXTVnVx77xQyPZqljgTEwAY5DCpgQPFlhfPPZgzdKXuKM4u9m9JxEwYpW5_gDkF3FTqyMZ5WXJVbWRroYRmuB2lvvHzQfXOBlPqP27LzdzCe5EBcIXMvUSVhrwtXpIIvyhJmsGMUZhOGmxNbeDH8RYsJvg"
-    );
+    let audio = new Audio('https://storage.googleapis.com/e-commercemartinsuhendra/thunder_strike_2-Mike_Koenig-2099467696.wav');
     audio.play();
   },
   mounted() {},
