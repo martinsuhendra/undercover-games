@@ -49,7 +49,6 @@
           <b-card-text>{{otherPlayer.score}}</b-card-text>
         </b-card>
       </b-row>
-      <!--<b-button type="submit" @click.prevent="generateNumber">Generate</b-button>-->
     </div>
     <div></div>
   </b-container>

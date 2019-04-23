@@ -13,9 +13,8 @@ export default new Vuex.Store({
     myIsReady:"",
     myWinnerStatus:null,
     isPlaying:false,
-    isGameOver:false,
-    isProcessAdd:false,
     canDecideWinner:false,
+    isFirstTime:true,
     players:[]
   },
   mutations: {
@@ -49,7 +48,6 @@ export default new Vuex.Store({
   },
   actions: {
     addPlayerToRoom(context, payload){
-      context.state.isProcessAdd = true;
       db
       .collection("rooms").doc(payload.room)
       .collection("players").add({
@@ -58,6 +56,7 @@ export default new Vuex.Store({
         isReady:false
       })
       .then(function(docRef) {
+        
          context.commit("setMyDocId", docRef.id)
           db
           .collection("rooms").doc(context.state.room)
@@ -66,8 +65,12 @@ export default new Vuex.Store({
             context.commit("setMyName",doc.data().name)
             context.commit("setMyScore", doc.data().score)
             context.commit("setMyIsReady", doc.data().isReady)
-            context.dispatch("listenToPlayers")
-            context.dispatch("listenToRoom")             
+            if(context.state.isFirstTime){
+              context.dispatch("listenToPlayers")
+              context.dispatch("listenToRoom")   
+              context.state.isFirstTime = false
+            }
+                
         });
       })
       .catch(function(error) {
@@ -75,11 +78,6 @@ export default new Vuex.Store({
       });
     },
     listenToPlayers(context){
-      if(context.state.isProcessAdd){
-
-        context.state.isProcessAdd = false
-        return
-      }
       db
         .collection("rooms").doc(context.state.room).collection("players")
         .onSnapshot(function(querySnapshot) {
@@ -96,8 +94,6 @@ export default new Vuex.Store({
           context.commit("setPlayers", playerArray)
           if(!context.state.isGameOver && !context.state.isPlaying){
             if(playerArray.length === 2){
-              //context.commit("setIsPlaying",true)
-              // alert("masu ke palyerarra.lenth")
               db
               .collection("rooms").doc(context.state.room)
               .update({

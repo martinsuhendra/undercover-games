@@ -142,21 +142,19 @@ export default {
       let payload = {
         room: this.roomName,
         name: this.playerName
-      };
-      this.$store.commit("setRoom", this.roomName);
-      this.$store.dispatch("addPlayerToRoom", payload);
-
-      this.$router.push("/play");
+      }
+      this.$store.commit("setRoom", this.roomName)
+      this.$store.dispatch("addPlayerToRoom", payload)
+      this.$router.push('/play')
     },
     joinRoom(id) {
       let payload = {
         room: id,
         name: this.playerName
-      };
-      this.$store.commit("setRoom", id);
-      this.$store.dispatch("addPlayerToRoom", payload);
-      this.$store.dispatch("listenToPlayers");
-      this.$router.push("/play");
+      }
+      this.$store.commit("setRoom", id)
+      this.$store.dispatch("addPlayerToRoom", payload)
+      this.$router.push('/play')
     },
 
     changePlay() {
