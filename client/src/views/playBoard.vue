@@ -28,7 +28,7 @@
           header-text-variant="white"
           header-tag="header"
           header-bg-variant="dark"
-          :footer="otherPlayer.score"
+          footer="otherPlayer.score"
           footer-tag="footer"
           footer-bg-variant="success"
           footer-border-variant="dark"
@@ -100,7 +100,6 @@ export default {
                     })
                   if(this.myScore + 1 === 20){
                     //update
-
                      db
                       .collection("rooms").doc(this.room)
                       .update({
