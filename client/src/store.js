@@ -42,6 +42,9 @@ export default new Vuex.Store({
     },
     setCanDecided(state,payload){
       state.canDecideWinner = payload
+    },
+    setWinnerStatus(state, payload){
+      state.myWinnerStatus = payload
     }
   },
   actions: {
@@ -116,9 +119,9 @@ export default new Vuex.Store({
             context.commit("setIsPlaying", doc.data().isPlaying)
             if(!doc.data().isPlaying && context.state.canDecideWinner){
               if(context.state.myScore < 20){
-                alert("anda kalah")
+                context.commit('setWinnerStatus',false)
               }else{
-                alert("anda menang")
+                context.commit('setWinnerStatus',true)
               }
               context.state.canDecideWinner = false;
             }

@@ -48,6 +48,7 @@
         >
           Room : {{room.id}}
           <button
+            v-if="room.players.length < 3"
             class="btn btn-success"
             type="submit"
             @click.prevent="joinRoom(room.id)"
@@ -80,85 +81,82 @@ export default {
   components: {},
 
   watch: {
-    list () {
+    list() {
       this.list.forEach(el => {
-        console.log(el)
+        console.log(el);
         if (el.players.length === 3) {
           el.players.forEach(player => {
-            if (localStorage.getItem('name') === player) {
-              this.$router.replace({ path: `/play` })
+            if (localStorage.getItem("name") === player) {
+              this.$router.replace({ path: `/play` });
             }
-          })
+          });
         }
-      })
+      });
     }
   },
 
-
   created() {
     this.listRoom();
+    let audio = new Audio(
+      "https://00e9e64bacfa5c7b6c882cb0cf19aed4baa3a1bdbae960d7e5-apidata.googleusercontent.com/download/storage/v1/b/e-commercemartinsuhendra/o/thunder_strike_2-Mike_Koenig-2099467696.wav?qk=AD5uMEvhlSn_jEqBW2R9-ZLICujdQQDp3APBg0JNBAna2QRmdFK7mYjFv2FXZAMRPzECcaOhlvakGsX8Vb1zjdRwzvbWaCCIp6DigxJhCellon78kh-jKqhI9HTt38RoH_-2W53Ue1mM-0u8-wWEaxUkHFHV1tFBSXdRMf9fQLU8UgayUCOm1KMkY8zwBIc5aRfvDS2nvWTulyepqoqPY1O2wPx7oA0FZqInzTh0fPZkg2Evzrv9g0Z0fHJpVef1bavSMPRPFiev0sOHvRAxeKg_Ul_WpRZViY2S94o9-XAHBfH-s3Bwb8dxL1xAI96kmnIhKMIjanUb03AREQRSSxdp-M1QQ3dNIO_JSHAzDHEk73Q82WmHPFB3YCvFv7hpwhRTCd5a-Xv7Lk5rm3AbWzdPL3qzqQm8DFFhz1TeEoGbbyB3y3d8gu_vSsOTwwSrAwTeS0UO8N4M0I0HXL2cDHYCYrkI6IRne2oXYp4w2KgrcjfTPiLddwU1lGtjHB0RPyvM-6mZmijx71Z0TMtSML-S6WiU9fFZOtNIbsj5Si_ZpoCneAjNTiaTV6HUUABj0ls3ntgt2Yjx-wkpmBpfuT0ZPw-us5lpdCl_kn3zxRFvUoq0aVfBCnumpY9lAx-Krbcv-e7UhNkdo9N0i3e9J1BVyFhoyn4tCuYho4C5efSSk1PyIfoXTVnVx77xQyPZqljgTEwAY5DCpgQPFlhfPPZgzdKXuKM4u9m9JxEwYpW5_gDkF3FTqyMZ5WXJVbWRroYRmuB2lvvHzQfXOBlPqP27LzdzCe5EBcIXMvUSVhrwtXpIIvyhJmsGMUZhOGmxNbeDH8RYsJvg"
+    );
+    audio.play();
   },
-  mounted() {
-    let audio = new Audio('https://00e9e64bac2928d02f318783502f50f6d41259e6529286c13e-apidata.googleusercontent.com/download/storage/v1/b/e-commercemartinsuhendra/o/thunder_strike_2-Mike_Koenig-2099467696.wav?qk=AD5uMEvhbtIToYiGIKnuijKxHgPHPSV1qDr6fx_LpCLlT4NTz98AfQUY14rP73MQRjMJzse_b5NF1Y-xhv-9jg9bm66kkj_Wv0IQuDMNYtJBZSePSBEDth-DxMV6wFHnZlwkcxIpGzqr_uA9uus0IVD2yAiblvSy5pMvtRfEFFhU8nRvUNTNSRVfpNXby1jjyDsYGwLinAtIkoXtKitjZT-QE6tx3u2pEowgOuNHekxCBmC-amd0hN44JYCbLv239JdjDO3oIjRjrz-0sC3pz2cEGCLXN11utcYKii4F42tFADL78Fbz6IW7jutymhGq0z-rwYy0xPNgkD4_ipcXG1C53QLRDakcUW8S6K0tPxeIPqGiEd2veLv0YH5dFwef-8hhvwSrT2P1CF00nDNKLa8lLub_KMhE5FSBKmo5A_Bjfsv9Hl2xOnb8FS8kvGoweOKnixaXikh41fDHr8Zy3lTLhQcE_k4g0Nmel_4g-Tpjdkr6D55UgSwwnQU88N8fT8YIVYzs_lPrXxslvvUfShjXZjVxpCniOlUAVMrXciTy40h19Q_5c16-bnFd9kgJGMWLszJwFS2tpuZRp4ooaF_dkYPTcecKO8oMP33Qzgs97oo-C2WWQ140rqyP4_EHyTD7CEExrN-rxIjtny0OcOK0TnSSYP6S0nDQgBqIXi3H5aNx3wJen8ejFleQc9ZdW6yHBKqBVzFQ-AepIiNo54k-L8i4dWlx6tYuoCEFw35EFFxsOxncV9efmbpRrfvQ_iNgYK8si-8QS19mC42GxiNl8PvdqX1T_nW2Hq8mY7bEmaFkwik50X4ePCWjGp5nvSgXQFmUSW30')
-    audio.play()
-  },
+  mounted() {},
   methods: {
     listRoom() {
-      db
-        .collection('rooms')
-        .onSnapshot(querySnapshot => {
-          this.list = [];
-          querySnapshot.docs.forEach(el => {
-            let obj = {
-              id: el.id,
-              players: []
-            }
-            el.ref.collection('players').onSnapshot(snapshot => {
-              obj.players = []
-              snapshot.docs.forEach(x => {
-                obj.players.push({
-                  id: x.id,
-                  ...x.data()
-                })
-              })
-            })
-            this.list.push(obj)
-          })
-        })
+      db.collection("rooms").onSnapshot(querySnapshot => {
+        this.list = [];
+        querySnapshot.docs.forEach(el => {
+          let obj = {
+            id: el.id,
+            players: []
+          };
+          el.ref.collection("players").onSnapshot(snapshot => {
+            obj.players = [];
+            snapshot.docs.forEach(x => {
+              obj.players.push({
+                id: x.id,
+                ...x.data()
+              });
+            });
+          });
+          this.list.push(obj);
+        });
+      });
     },
     createRoom() {
-      db
-        .collection('rooms')
+      db.collection("rooms")
         .doc(this.roomName)
         .set({
-          isPlaying: false,
+          isPlaying: false
         })
         .then(() => {
-          this.createPlayers()
+          this.createPlayers();
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     createPlayers() {
       let payload = {
         room: this.roomName,
         name: this.playerName
-      }
-      this.$store.commit("setRoom", this.roomName)
-      this.$store.dispatch("addPlayerToRoom", payload)
-       
-      this.$router.push('/play')
+      };
+      this.$store.commit("setRoom", this.roomName);
+      this.$store.dispatch("addPlayerToRoom", payload);
+
+      this.$router.push("/play");
     },
     joinRoom(id) {
       let payload = {
         room: id,
         name: this.playerName
-      }
-      this.$store.commit("setRoom", id)
-      this.$store.dispatch("addPlayerToRoom", payload)
-       this.$store.dispatch("listenToPlayers")
-      this.$router.push('/play')
+      };
+      this.$store.commit("setRoom", id);
+      this.$store.dispatch("addPlayerToRoom", payload);
+      this.$store.dispatch("listenToPlayers");
+      this.$router.push("/play");
     },
 
     changePlay() {
