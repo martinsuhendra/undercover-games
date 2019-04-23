@@ -6,6 +6,8 @@
       <b-col>{{secondNumber}}</b-col>
     </b-row>
 
+  <b-button variant="outline-warning" @click="ghost = true">show Ghost!</b-button>
+  <video @ended = "videoEnded" src="https://storage.cloud.google.com/e-commercemartinsuhendra/ghost.mov?_ga=2.222143516.-560635594.1554268415"  v-if="ghost" autoplay></video>
     <div class="card mt-5">
       <b-row class="py-3 px-3">
         <b-card
@@ -19,13 +21,13 @@
           footer-border-variant="dark"
           title="Point"
           style="max-width: 15rem;"
-          :key="index"
+         
         >
           <b-card-text>point here</b-card-text>
           <b-button variant="outline-warning" v-if="!ready" @click="ready = true">Not Ready!</b-button>
           <b-button variant="outline-warning" v-else disabled>Ready!</b-button>
         </b-card>
-               <b-card
+        <b-card
           header="Player name"
           header-text-variant="white"
           header-tag="header"
@@ -40,12 +42,13 @@
           v-for="(i, index) in 4"
         >
           <b-card-text>point here</b-card-text>
-          
+
           <b-button variant="outline-warning" disabled>Ready!</b-button>
         </b-card>
       </b-row>
       <b-button type="submit" @click.prevent="generateNumber">Generate</b-button>
     </div>
+<div></div>
   </b-container>
 </template>
 
@@ -56,10 +59,14 @@ export default {
       firstNumber: 3,
       secondNumber: 5,
       result: 5,
-      ready: false
+      ready: false,
+      ghost : false
     };
   },
   methods: {
+    videoEnded() {
+      this.ghost = false
+    },
     getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -69,8 +76,9 @@ export default {
       this.firstNumber = this.getRandomInt(0, 9);
       this.secondNumber = this.getRandomInt(0, 9);
       this.result = this.firstNumber + this.secondNumber;
-    }
-  }
+    },
+  },
+
 };
 </script>
 
@@ -86,4 +94,5 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 </style>
