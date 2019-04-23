@@ -12,6 +12,7 @@
       src="https://storage.googleapis.com/e-commercemartinsuhendra/ghost.mov"
       v-if="ghost"
       autoplay
+      id="jumpscare"
     ></video>
 
     <div class="card mt-5">
@@ -50,7 +51,9 @@
         </b-card>
       </b-row>
     </div>
-    <div></div>
+    <div>
+    <Chat style="margin-bottom: 50px;" />
+    </div>
   </b-container>
 </template>
 
@@ -58,6 +61,7 @@
 import random from "@/helpers/randomNumber";
 import { mapState } from "vuex";
 import db from "@/fb";
+import Chat from '@/components/Chat.vue'
 
 export default {
   data() {
@@ -69,6 +73,11 @@ export default {
       ghost: false
     };
   },
+
+  components: {
+    Chat
+  },
+
   methods: {
     videoEnded() {
       this.ghost = false;
@@ -167,5 +176,22 @@ export default {
 .row {
   display: flex;
   justify-content: center;
+}
+
+#jumpscare {
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+
+    background-size: cover;
 }
 </style>
