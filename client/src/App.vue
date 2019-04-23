@@ -4,9 +4,10 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  backface-visibility: hidden;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -23,5 +24,11 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+h1 {
+  display: flex;
+  justify-content: flex-start;
+  color: #df0054
 }
 </style>
