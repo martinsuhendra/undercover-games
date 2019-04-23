@@ -9,7 +9,7 @@
     <h1 v-else-if="myWinnerStatus == false">You Lose!!!</h1>
     <video
       @ended="videoEnded"
-      src="https://storage.cloud.google.com/e-commercemartinsuhendra/ghost.mov?_ga=2.222143516.-560635594.1554268415"
+      src="https://storage.googleapis.com/e-commercemartinsuhendra/ghost.mov"
       v-if="ghost"
       autoplay
     ></video>
