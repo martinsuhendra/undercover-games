@@ -66,8 +66,6 @@
 <script>
 // @ is an alias to /src
 import db from "@/fb";
-import firebase from "firebase";
-import "firebase/firestore";
 
 export default {
   name: "home",
@@ -143,44 +141,24 @@ export default {
         })
     },
     createPlayers() {
-      db
-        .collection('rooms')
-        .doc(this.roomName)
-        .collection("players").add({
-           name: this.playerName,
-           score: 0,
-           isReady:false
-         })
-        .then(() => {
-          localStorage.setItem('name', this.playerName)
-          this.roomName = ''
-          this.playerName = ''
-          this.$router.push('/play')
-        })
-        .catch(err => {
-          console.log(err)
-        })
-
-
+      let payload = {
+        room: this.roomName,
+        name: this.playerName
+      }
+      this.$store.commit("setRoom", this.roomName)
+      this.$store.dispatch("addPlayerToRoom", payload)
+       
+      this.$router.push('/play')
     },
     joinRoom(id) {
-      db
-        .collection('rooms')
-        .doc(id)
-        .collection("players").add({
-           name: this.playerName,
-           score: 0,
-           isReady:false
-         })
-        .then(() => {
-          localStorage.setItem('name', this.playerName)
-          this.roomName = ''
-          this.playerName = ''
-          this.$router.push('/play')
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      let payload = {
+        room: id,
+        name: this.playerName
+      }
+      this.$store.commit("setRoom", id)
+      this.$store.dispatch("addPlayerToRoom", payload)
+       this.$store.dispatch("listenToPlayers")
+      this.$router.push('/play')
     },
 
     changePlay() {
