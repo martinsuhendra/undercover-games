@@ -93,12 +93,17 @@ export default new Vuex.Store({
           context.commit("setPlayers", playerArray)
           if(!context.state.isGameOver && !context.state.isPlaying){
             if(playerArray.length === 2){
-              context.commit("setIsPlaying",true)
-              // db
-              // .collection("rooms").doc(context.state.room)
-              // .update({
-              //   isPlaying:true
-              // })
+              //context.commit("setIsPlaying",true)
+              // alert("masu ke palyerarra.lenth")
+              db
+              .collection("rooms").doc(context.state.room)
+              .update({
+                isPlaying:true
+              })
+              .then(()=>{
+                context.commit("setCanDecided", true)
+              })
+              
             }
           }
         });
@@ -107,16 +112,15 @@ export default new Vuex.Store({
       db
         .collection("rooms").doc(context.state.room)
         .onSnapshot(function(doc){
+            console.log(doc.data());
             context.commit("setIsPlaying", doc.data().isPlaying)
-            context.commit("setCanDecided", true)
             if(!doc.data().isPlaying && context.state.canDecideWinner){
               if(context.state.myScore < 20){
-                //anda kalah
-                //ubah stat
                 alert("anda kalah")
               }else{
                 alert("anda menang")
               }
+              context.state.canDecideWinner = false;
             }
         })
     }
